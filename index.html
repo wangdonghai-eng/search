@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>layui</title>
+    <title>COP</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -66,6 +66,12 @@
                             <button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-setinfo-btn">确认设定</button>
                         </div>
 
+                        <div class="layui-inline">
+                            <button type="button" class="layui-btn layui-btn-primary" id="selectFileBtn">选择 JSON 文件</button>
+                            <input type="file" id="fileInput" style="display:none;" accept=".json" />
+                            <!-- <pre id="jsonContent" class="layui-code" style="margin-top: 20px;"></pre> -->
+                        </div>
+
                         
 
                         <!-- <br> -->
@@ -87,7 +93,7 @@
 
 
 
-                        <div class="layui-inline">
+                        <div class="layui-inline" style="display: none;">
                             <label class="layui-form-label">文件后缀</label>
                             <div class="layui-input-inline">
                                 <input type="text" name="check_file_suffix" autocomplete="off" class="layui-input">
@@ -326,16 +332,15 @@ function timeTampFormat(timestamp){
                     cols: [[
                         // {type: "checkbox", width: 50},
                         {field: 'index', width: 80, title: '序号', sort: true},
-                        {field: 'poc_name', title: '名称',  minWidth: 260, sort: true},
+                        {field: 'poc_name', title: '名称',  width: 160, sort: true},
                         {field: 'poc_description', title: '描述', minWidth: 320, sort: true},
-                        {field: 'poc_risk', title: '等级', minWidth: 120, sort: true},
-                        {field: 'poc_file_suffix', title: '文件名后缀', minWidth: 120, sort: true},
-                        {field: 'poc_verified', title: '验证状态', minWidth: 120, sort: true},
-                        {field: 'poc_date_added', title: '添加时间', minWidth: 120, sort: true},
-                        {field: 'poc_date_updated', title: '最后更新时间', minWidth: 120, sort: true},
+                        {field: 'poc_risk', title: '等级', width: 80, sort: true},
+                        {field: 'poc_verified', title: '验证状态', minWidth: 260, sort: true},
+                        {field: 'poc_date_added', title: '时间', width: 120, sort: true},
+                        // {field: 'poc_date_updated', title: '最后更新时间', width: 120, sort: true},
                         // {field: 'source_name', width: 80, title: '来源'},
                         // {field: 'wealth', width: 135, title: '财富', sort: true},
-                        {title: '操作', minWidth: 200, toolbar: '#currentTableBar', align: "center"}
+                        {title: '操作', width: 120, toolbar: '#currentTableBar', align: "center"}
                     ]],
                     data: datas,
                     // limits: [50],
@@ -436,7 +441,7 @@ function timeTampFormat(timestamp){
             cbc_key = aes_key
             cbc_iv = aes_iv
             load_risk()
-            layer.msg("设定成功")
+            // layer.msg("设定成功")
             return false
         });             
 
@@ -589,6 +594,40 @@ function timeTampFormat(timestamp){
                 });
                 return false;
             }
+        });
+
+
+        // 点击按钮触发文件选择
+        $('#selectFileBtn').on('click', function () {
+            $('#fileInput').click();
+        });
+
+        // 文件选择完成后读取内容
+        $('#fileInput').on('change', function (event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.type !== "application/json") {
+                layer.msg("请选择 JSON 文件");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+            try {
+                const json = JSON.parse(e.target.result);
+                $('input[name="auth_url"]').val(json['auth_url']);
+                $('input[name="auth_token"]').val(json['auth_token']);
+                $('input[name="auth_key"]').val(json['auth_key']);
+                $('input[name="aes_key"]').val(json['aes_key']);
+                $('input[name="aes_iv"]').val(json['aes_iv']);
+                // $('#jsonContent').text(JSON.stringify(json, null, 2));
+                // layui.code(); // 重新渲染代码高亮
+            } catch (err) {
+                layer.alert("JSON 文件格式错误，请检查内容！");
+            }
+            };
+            reader.readAsText(file);
         });
 
     });
