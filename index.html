@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/public.css" media="all">
+    <script src="cryjs/rollups/aes.js"></script>
+    <script src="cryjs/components/mode-ecb-min.js"></script>
+    <script src="cryjs/components/pad-nopadding-min.js"></script>
+
+    
+    <style>
+        .layui-form-pane .layui-form-label {
+            width: 120px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+       
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        
+                        
+                        <div class="layui-inline">
+                            <label class="layui-form-label">服务端地址</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="auth_url" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">认证token</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="auth_token" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">认证key</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="auth_key" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">aes_key</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="aes_key" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">aes_iv</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="aes_iv" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-setinfo-btn">确认设定</button>
+                        </div>
+
+                        
+
+                        <!-- <br> -->
+                        <hr>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">漏洞名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="check_name" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">漏洞描述</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="check_description" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">文件后缀</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="check_file_suffix" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <!-- <div class="layui-inline">
+                            <label class="layui-form-label">漏洞标签</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="check_description" autocomplete="off" class="layui-input">
+                            </div>
+                        </div> -->
+
+
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">漏洞内容</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="check_content" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">漏洞等级</label>
+                            <div class="layui-input-inline">
+                                <div id="xialaduoxuan" name="check_risk" class="xm-select-demo"></div>
+                            </div>
+                        </div>
+
+
+                       
+
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">开始时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="s_startTime" id="s_startTime" lay-verify="datetime" placeholder="yyyy-MM-dd HH-mm-ss" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">结束时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="s_endTime" id="s_endTime" lay-verify="datetime" placeholder="yyyy-MM-dd HH-mm-ss" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        
+
+
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-total-btn">统计信息</button>
+                        </div>
+
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <div style="text-align: center;color: #444;" id="info_id"></div>
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <!-- <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button> -->
+            </div>
+        </script>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+            <!-- <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="close">关闭</a> -->
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="content">查看内容</a>
+        </script>
+
+        <div id="test1"></div>
+
+    </div>
+</div>
+<script src="./lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="./js/common.js"></script>
+<script src="./js/tool.js"></script>
+<script>
+    /**获取近N天*/
+function getRecentDay(day){
+    var today = new Date();
+    var targetday_milliseconds=today.getTime() + 1000*60*60*24*day;
+    today.setTime(targetday_milliseconds);
+    var tYear = today.getFullYear();
+    var tMonth = today.getMonth();
+    var tDate = today.getDate();
+    var tHours = today.getHours();//可注释
+    var tMinutes = today.getMinutes();//可注释
+    var tSeconds = today.getSeconds();//可注释
+    tMonth = doHandleMonth(tMonth + 1);
+    tDate = doHandleMonth(tDate);
+    tHours = doHandleMonth(tHours);
+    tMinutes = doHandleMonth(tMinutes);
+    tSeconds = doHandleMonth(tSeconds);
+    return tYear+"-"+tMonth+"-"+tDate+" "+tHours+":"+tMinutes+":"+tSeconds;
+}
+/**获取近N月*/
+function doHandleMonth(month){
+    var m = month;
+    if(month.toString().length == 1){
+        m = "0" + month;
+    }
+    return m;
+}
+function formatTimeTamp(date){
+   date = new Date(Date.parse(date.replace(/-/g, "/")));
+   date = date.getTime() / 1000;
+
+   return date
+}
+
+function timeTampFormat(timestamp){
+    // 此处时间戳以毫秒为单位
+    let date = new Date(parseInt(timestamp) * 1000);
+    let Year = date.getFullYear();
+    let Moth = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+    let Day = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+    let Hour = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours());
+    let Minute = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
+    let Sechond = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
+    let  GMT =  Year + '-' + Moth + '-' + Day
+    
+    return GMT 
+
+}
+    layui.config({base:"./js/"}).extend({xmSelect:"xm-select"}).use(['laypage','form', 'table', 'laydate', 'xmSelect'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+            laydate = layui.laydate;
+        var laypage = layui.laypage;
+        
+
+        var xmSelect = layui.xmSelect;
+        
+
+        var start = laydate.render({
+            elem: '#s_startTime',
+            max:1,//最大值为当前日期
+            trigger: 'click',
+            type: 'datetime',//日期时间选择器
+            value: '0000-00-00 00:00:00',//getRecentDay(-3),//默认值30天前
+            done:function(value,date){
+                if(value && (value>$("#s_endTime").val())){
+                    /*开始时间大于结束时间时，清空结束时间*/
+                    $("#s_endTime").val("");
+                }
+                end.config.min ={
+                    year:date.year,
+                    month:date.month-1,
+                    date: date.date,
+                    hours:date.hours,//可注释
+                    minutes:date.minutes,//可注释
+                    seconds:date.seconds//可注释
+                };
+            }
+        });
+        //结束日期
+        var end = laydate.render({
+            elem: '#s_endTime',
+            max : 1,//最大值为当前日期
+            type: 'datetime',//日期时间选择器
+            value: getRecentDay(-0),//默认值昨天
+            done:function(value,date){
+                start.config.max={
+                    year:date.year,
+                    month:date.month-1,
+                    date: date.date,
+                    hours:date.hours,//可注释
+                    minutes:date.minutes,//可注释
+                    seconds:date.seconds//可注释
+                }
+            }
+        });
+
+
+
+        function load_table_data(page,check_name,check_description,check_file_suffix,check_content,check_risk,check_start_time,check_end_time){
+            var loading = layer.load('Loading...', {shade: [0.5,'#ccc'] });
+            var check_data = {
+                "key": key,
+                "timestamp": Math.floor(Date.now() / 1000),
+                "check_page": page ,
+                "check_start_time": check_start_time,
+                "check_end_time": check_end_time,
+
+                "poc_name": check_name,
+                "poc_description": check_description,
+                "poc_risk": check_risk,
+                "poc_platform": "",
+                "poc_content": check_content,
+                "poc_use_tool_name": "",
+                "poc_file_suffix": check_file_suffix,
+                "poc_type": "",
+                "poc_verified": "",
+                "poc_tags": ""
+            }
+
+            var endata = encryptAES_CBC(JSON.stringify(check_data))
+            send($, api_url + "check", {"token":token, "data":endata}, function(data){
+                // alert(data)
+                console.log(data)
+
+                var data = JSON.parse(decryptAES_CBC(data))
+                console.log(data)
+                $("#info_id").html("匹配到数据"+data['count']+"条。每次查询获取其中10条。认证到期时间"+timeTampFormat(data['limit_time'])+"。可查询总条数"+data['quota']+"条，已查询条数"+data['quota_use']+"条。")
+                var datas = data['datas']
+
+                var index = (page - 1) * 50
+                datas.map(x => {
+                    index += 1;
+                    x['index'] = index
+                    x['poc_date_added'] = timeTampFormat(x['poc_date_added'])
+                    x['poc_date_updated'] = timeTampFormat(x['poc_date_updated'])
+                })
+
+                table.render({
+                    elem: '#currentTableId',
+                    // url: api_url + "check",
+                    toolbar: '#toolbarDemo',
+                    // method: "post",
+                    // contentType: "application/json",
+                    // where: {
+                    //     "token": token, 
+                    //     "data": check_data,
+                    // },
+                    defaultToolbar: ['filter', 'exports', 'print', {
+                        title: '提示',
+                        layEvent: 'LAYTABLE_TIPS',
+                        icon: 'layui-icon-tips'
+                    }],
+                    cols: [[
+                        // {type: "checkbox", width: 50},
+                        {field: 'index', width: 80, title: '序号', sort: true},
+                        {field: 'poc_name', title: '漏洞名称',  minWidth: 260, sort: true},
+                        {field: 'poc_description', title: '漏洞描述', minWidth: 320, sort: true},
+                        {field: 'poc_risk', title: '漏洞等级', minWidth: 120, sort: true},
+                        {field: 'poc_file_suffix', title: '文件名后缀', minWidth: 120, sort: true},
+                        {field: 'poc_verified', title: '验证状态', minWidth: 120, sort: true},
+                        {field: 'poc_date_added', title: '添加时间', minWidth: 120, sort: true},
+                        {field: 'poc_date_updated', title: '最后更新时间', minWidth: 120, sort: true},
+                        // {field: 'source_name', width: 80, title: '来源'},
+                        // {field: 'wealth', width: 135, title: '财富', sort: true},
+                        {title: '操作', minWidth: 200, toolbar: '#currentTableBar', align: "center"}
+                    ]],
+                    data: datas,
+                    // limits: [50],
+                    limit: 50,
+                    // count: 1000,
+                    // page: true,
+                    skin: 'line'
+                });
+
+                laypage.render({
+                    elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
+                    ,limit: 50
+                    ,first:"首页"
+                    ,last:"尾页"
+                    ,curr:page
+                    ,count: data['count'] //数据总数，从服务端得到
+                    ,jump: function(obj, first){
+                        //obj包含了当前分页的所有参数，比如：
+                        console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                        console.log(obj.limit); //得到每页显示的条数
+                        
+                        //首次不执行
+                        if(!first){
+                        //do something
+                            load_table_data(obj.curr,check_name,check_description,check_file_suffix,check_content,check_risk,check_start_time,check_end_time)
+                        }
+                    }
+                });
+
+                layer.close(loading);
+                
+            })
+        }
+        // load_table_data(1, "", "", "", "", "",  0, 2000000000)
+
+
+        function load_risk(){
+            var loading = layer.load('Loading...', {shade: [0.5,'#ccc'] });
+            send($, api_url + "total_info", {"token":token, "data":""}, function(data){
+                // alert(data)
+                console.log(data)
+                var options = []
+                for(var i = 0; i < data['datas']['poc_risk'].length ; i++){
+                    options.push({name: data['datas']['poc_risk'][i], value: data['datas']['poc_risk'][i], selected:false},)
+                }
+                xmSelect.render({
+                    el: '#xialaduoxuan',
+                    data: options
+                })
+                layer.close(loading);
+            })
+        }
+        // load_risk()
+        
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+
+            var check_data = data.field
+            console.log(check_data)
+            var check_name = check_data['check_name']
+            var check_description = check_data['check_description']
+            var check_file_suffix = check_data['check_file_suffix']
+            var check_content = check_data['check_content']
+            var check_risk = check_data['select']
+            var check_start_time = formatTimeTamp(check_data['s_startTime'])
+            var check_end_time = formatTimeTamp(check_data['s_endTime'])
+            
+            if(!check_start_time){check_start_time=0}
+            if(!check_end_time){check_end_time=2000000000}
+            console.log(check_start_time)
+            console.log(check_end_time)
+            
+            load_table_data(1,check_name,check_description,check_file_suffix,check_content,check_risk,check_start_time, check_end_time)
+
+            return false;
+        });
+
+        
+                        
+                        
+                        
+                        
+
+        form.on('submit(data-setinfo-btn)', function (data) {
+
+            var check_data = data.field
+            console.log(check_data)
+            var auth_url = check_data['auth_url']
+            var auth_token = check_data['auth_token']
+            var auth_key = check_data['auth_key']
+            var aes_key = check_data['aes_key']
+            var aes_iv = check_data['aes_iv']
+
+            api_url = auth_url
+
+            token = auth_token
+            key = auth_key
+            cbc_key = aes_key
+            cbc_iv = aes_iv
+            load_risk()
+            layer.msg("设定成功")
+            return false
+        });             
+
+
+
+
+
+        form.on('submit(data-total-btn)', function (data) {
+            var loading = layer.load('Loading...', {shade: [0.5,'#ccc'] });
+            send($, api_url + "total_info", {"token":token, "data":""}, function(data){
+                // alert(data)
+                console.log(data)
+                var datas = data['datas']
+                var index = layer.open({
+                    title: '详细内容',
+                    type: 1,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: "<pre><code>" + JSON.stringify(datas,null, 2) + "</code></pre><hr style='height:1px;background-color: #000;' /><pre><code id='testid'></code></pre></br></br>",
+                    success: function(layero, index){
+                        layer.close(loading);
+                    }
+                });
+                
+                
+            })
+
+            
+            
+            return false;
+        });
+
+        /**
+         * toolbar监听事件
+         */
+        // table.on('toolbar(currentTableFilter)', function (obj) {
+        //     if (obj.event === 'content') {  // 监听添加操作
+        //         var index = layer.open({
+        //             title: '添加用户',
+        //             type: 1,
+        //             shade: 0.2,
+        //             maxmin:true,
+        //             shadeClose: true,
+        //             area: ['100%', '100%'],
+        //             content: '../page/table/add.html',
+        //         });
+        //         $(window).on("resize", function () {
+        //             layer.full(index);
+        //         });
+        //     } else if (obj.event === 'delete') {  // 监听删除操作
+        //         var checkStatus = table.checkStatus('currentTableId')
+        //             , data = checkStatus.data;
+        //         layer.alert(JSON.stringify(data));
+        //     }
+        // });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            console.log(data)
+            if (obj.event === 'content') {
+
+                var loading = layer.load('Loading...', {shade: [0.5,'#ccc'] });
+
+                var endata = encryptAES_CBC(JSON.stringify({"mid": data['poc_content_md5'],"timestamp": Math.floor(Date.now() / 1000),"key": key,}))
+
+                send($, api_url+"check_mid", {"token":token, "data":endata},function(rdata){
+                    console.log(rdata)
+                    var rdata_json = JSON.parse(decryptAES_CBC(rdata))
+
+                    data['limit_time'] = rdata_json['limit_time']
+                    data['quota'] = rdata_json['quota']
+                    data['quota_use'] = rdata_json['quota_use']
+
+                    var index = layer.open({
+                        title: '详细内容',
+                        type: 1,
+                        shade: 0.2,
+                        maxmin:true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: "<pre><code>" + JSON.stringify(data,null, 2) + "</code></pre><hr style='height:1px;background-color: #000;' /><pre><code id='testid'></code></pre></br></br>",
+                        success: function(layero, index){
+                            console.log(layero, index);
+                            console.log(rdata_json)
+                            
+                            // console.log(rdata)
+                            var data_str = rdata_json['datas'].length > 0 ? rdata_json['datas'][0] : ""
+                            let escapedString = data_str.replace(/[&<>"']/g, function(match) {
+                                switch (match) {
+                                    case '&':
+                                    return '&amp;';
+                                    case '<':
+                                    return '&lt;';
+                                    case '>':
+                                    return '&gt;';
+                                    case '"':
+                                    return '&quot;';
+                                    case '\'':
+                                    return '&#39;';
+                                    default:
+                                    return match;
+                                }
+                                });
+                            document.getElementById('testid').textContent = escapedString;
+                            // let decodedString = document.getElementById('testid').innerHTML;
+                            // document.getElementById('testid').innerHTML = decodedString;
+                            layer.close(loading);
+                        }
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                        
+                    });
+                })
+                
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if (obj.event === 'details'){
+                console.log(data)
+                // 带有NEW_API说明是新API
+                if(data['alarm'].indexOf("NEW_API")){
+                    var index = layer.open({
+                        title: 'API详情',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin:true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: './table/details_api.html?data=' + btoa(encodeURIComponent(JSON.stringify(data))),
+
+                    });
+                }else{
+                    // 否则进入校验API内容区域
+
+                }
+                
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>
