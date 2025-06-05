@@ -72,14 +72,14 @@
                         <hr>
 
                         <div class="layui-inline">
-                            <label class="layui-form-label">漏洞名称</label>
+                            <label class="layui-form-label">名称</label>
                             <div class="layui-input-inline">
                                 <input type="text" name="check_name" autocomplete="off" class="layui-input">
                             </div>
                         </div>
 
                         <div class="layui-inline">
-                            <label class="layui-form-label">漏洞描述</label>
+                            <label class="layui-form-label">描述</label>
                             <div class="layui-input-inline">
                                 <input type="text" name="check_description" autocomplete="off" class="layui-input">
                             </div>
@@ -94,7 +94,7 @@
                             </div>
                         </div>
                         <!-- <div class="layui-inline">
-                            <label class="layui-form-label">漏洞标签</label>
+                            <label class="layui-form-label">标签</label>
                             <div class="layui-input-inline">
                                 <input type="text" name="check_description" autocomplete="off" class="layui-input">
                             </div>
@@ -103,14 +103,14 @@
 
 
                         <div class="layui-inline">
-                            <label class="layui-form-label">漏洞内容</label>
+                            <label class="layui-form-label">内容</label>
                             <div class="layui-input-inline">
                                 <input type="text" name="check_content" autocomplete="off" class="layui-input">
                             </div>
                         </div>
 
                         <div class="layui-inline">
-                            <label class="layui-form-label">漏洞等级</label>
+                            <label class="layui-form-label">等级</label>
                             <div class="layui-input-inline">
                                 <div id="xialaduoxuan" name="check_risk" class="xm-select-demo"></div>
                             </div>
@@ -326,9 +326,9 @@ function timeTampFormat(timestamp){
                     cols: [[
                         // {type: "checkbox", width: 50},
                         {field: 'index', width: 80, title: '序号', sort: true},
-                        {field: 'poc_name', title: '漏洞名称',  minWidth: 260, sort: true},
-                        {field: 'poc_description', title: '漏洞描述', minWidth: 320, sort: true},
-                        {field: 'poc_risk', title: '漏洞等级', minWidth: 120, sort: true},
+                        {field: 'poc_name', title: '名称',  minWidth: 260, sort: true},
+                        {field: 'poc_description', title: '描述', minWidth: 320, sort: true},
+                        {field: 'poc_risk', title: '等级', minWidth: 120, sort: true},
                         {field: 'poc_file_suffix', title: '文件名后缀', minWidth: 120, sort: true},
                         {field: 'poc_verified', title: '验证状态', minWidth: 120, sort: true},
                         {field: 'poc_date_added', title: '添加时间', minWidth: 120, sort: true},
